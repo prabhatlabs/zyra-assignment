@@ -1,3 +1,4 @@
+import cors from "cors"
 import express from "express"
 import routes from "./routes"
 import { attachRequestId } from "./lib/requestId"
@@ -6,6 +7,7 @@ import { globalErrorHandler } from "./lib/errorHandler"
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 app.use(attachRequestId)
 app.use(requestLogger)

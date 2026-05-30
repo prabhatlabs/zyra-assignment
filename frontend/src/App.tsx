@@ -1,35 +1,18 @@
-import { useState } from "react"
-import { Button } from "./components/ui/button"
-import {
-    Card,
-    CardAction,
-    CardContent,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "./components/ui/card"
+import { DashboardPage } from "@/pages/dashboard-page"
+import { StudentDetailPage } from "@/pages/student-detail-page"
+import { StudentsPage } from "@/pages/students-page"
+import { Route, Routes } from "react-router-dom"
+import Provider from "./providers/provider"
 
 function App() {
-    const [count, setCount] = useState(0)
-
     return (
-        <div className="h-dvh w-screen flex items-center justify-center">
-            <div className="p-4 max-w-6xl mx-auto">
-                <Card className="w-sm">
-                    <CardHeader>
-                        <CardTitle>Counter</CardTitle>
-                    </CardHeader>
-                    <CardContent>Counting {count}</CardContent>
-                    <CardFooter>
-                        <CardAction>
-                            <Button onClick={() => setCount((p) => p + 1)}>
-                                Count
-                            </Button>
-                        </CardAction>
-                    </CardFooter>
-                </Card>
-            </div>
-        </div>
+        <Provider>
+            <Routes>
+                <Route path="/" element={<DashboardPage />} />
+                <Route path="/students" element={<StudentsPage />} />
+                <Route path="/students/:id" element={<StudentDetailPage />} />
+            </Routes>
+        </Provider>
     )
 }
 

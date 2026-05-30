@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import envvars from "./constants/envvars";
+import mongoose from "mongoose"
+import envvars from "./constants/envvars"
 
 // #region mock-data
 export const students = [
@@ -30,14 +30,15 @@ export const students = [
         counselorId: "csl_001",
         enrollmentStatus: "at_risk",
     },
-];
+]
 
 export const tasks = [
     {
         id: "tsk_001",
         studentId: "stu_001",
         title: "Submit FAFSA application",
-        description: "Deadline is approaching. Student has not started the form.",
+        description:
+            "Deadline is approaching. Student has not started the form.",
         status: "todo",
         priority: "urgent",
         dueDate: "2026-06-05",
@@ -48,7 +49,8 @@ export const tasks = [
         id: "tsk_002",
         studentId: "stu_001",
         title: "Meet with math tutor",
-        description: "Failing algebra — tutoring sessions must begin immediately.",
+        description:
+            "Failing algebra — tutoring sessions must begin immediately.",
         status: "in_progress",
         priority: "high",
         dueDate: "2026-06-01",
@@ -59,7 +61,8 @@ export const tasks = [
         id: "tsk_003",
         studentId: "stu_001",
         title: "Attendance improvement plan",
-        description: "Student missed 8 days this semester. Plan must be signed.",
+        description:
+            "Student missed 8 days this semester. Plan must be signed.",
         status: "todo",
         priority: "urgent",
         dueDate: "2026-05-28",
@@ -81,7 +84,8 @@ export const tasks = [
         id: "tsk_005",
         studentId: "stu_001",
         title: "Parent meeting scheduled",
-        description: "Coordinate a meeting with guardian to discuss current standing.",
+        description:
+            "Coordinate a meeting with guardian to discuss current standing.",
         status: "completed",
         priority: "high",
         dueDate: "2026-05-18",
@@ -92,7 +96,8 @@ export const tasks = [
         id: "tsk_006",
         studentId: "stu_002",
         title: "Finalise Common App essay",
-        description: "Essay draft reviewed — needs final polish before submission.",
+        description:
+            "Essay draft reviewed — needs final polish before submission.",
         status: "in_progress",
         priority: "high",
         dueDate: "2026-06-08",
@@ -147,7 +152,8 @@ export const tasks = [
         id: "tsk_011",
         studentId: "stu_003",
         title: "Behavioural support referral",
-        description: "Refer student to student support services after incident report.",
+        description:
+            "Refer student to student support services after incident report.",
         status: "in_progress",
         priority: "high",
         dueDate: "2026-06-02",
@@ -158,7 +164,8 @@ export const tasks = [
         id: "tsk_012",
         studentId: "stu_003",
         title: "Explore vocational pathways",
-        description: "Student expressed interest in trades. Share relevant programs.",
+        description:
+            "Student expressed interest in trades. Share relevant programs.",
         status: "todo",
         priority: "medium",
         dueDate: "2026-06-18",
@@ -176,7 +183,7 @@ export const tasks = [
         createdAt: "2026-05-03T09:00:00Z",
         updatedAt: "2026-05-10T16:00:00Z",
     },
-];
+]
 
 export const messages = [
     {
@@ -193,7 +200,8 @@ export const messages = [
         studentId: "stu_001",
         from: "Maya Patel",
         subject: "Can we meet this week?",
-        preview: "Hi, I was wondering if you had any time to chat about my grades...",
+        preview:
+            "Hi, I was wondering if you had any time to chat about my grades...",
         read: false,
         receivedAt: "2026-05-29T17:00:00Z",
     },
@@ -211,7 +219,8 @@ export const messages = [
         studentId: "stu_002",
         from: "Jordan Lee",
         subject: "Essay draft attached",
-        preview: "Hi, here's my latest Common App essay draft. Would love your feedback...",
+        preview:
+            "Hi, here's my latest Common App essay draft. Would love your feedback...",
         read: false,
         receivedAt: "2026-05-31T10:00:00Z",
     },
@@ -220,7 +229,8 @@ export const messages = [
         studentId: "stu_002",
         from: "Mr. Garcia (English)",
         subject: "Recommendation letter sent",
-        preview: "I have submitted Jordan's recommendation letter via Naviance...",
+        preview:
+            "I have submitted Jordan's recommendation letter via Naviance...",
         read: true,
         receivedAt: "2026-05-23T14:00:00Z",
     },
@@ -229,7 +239,8 @@ export const messages = [
         studentId: "stu_003",
         from: "Parent — Maria Rivera",
         subject: "Concerns about Carlos",
-        preview: "I wanted to reach out about the incident last week. We are very worried...",
+        preview:
+            "I wanted to reach out about the incident last week. We are very worried...",
         read: false,
         receivedAt: "2026-05-30T20:00:00Z",
     },
@@ -238,7 +249,8 @@ export const messages = [
         studentId: "stu_003",
         from: "Student Support Services",
         subject: "Referral received",
-        preview: "We have received the referral for Carlos Rivera and will schedule...",
+        preview:
+            "We have received the referral for Carlos Rivera and will schedule...",
         read: false,
         receivedAt: "2026-05-29T11:00:00Z",
     },
@@ -247,29 +259,30 @@ export const messages = [
         studentId: "stu_003",
         from: "Online Learning Platform",
         subject: "Credit recovery login details",
-        preview: "Your student has been enrolled in English 10 credit recovery...",
+        preview:
+            "Your student has been enrolled in English 10 credit recovery...",
         read: true,
         receivedAt: "2026-05-21T08:00:00Z",
     },
-];
+]
 // #endregion
 
 async function seed() {
-  await mongoose.connect(envvars.MONGODB_URI)
-  console.log("Connected to MongoDB")
+    await mongoose.connect(envvars.MONGODB_URI)
+    console.log("Connected to MongoDB")
 
-  const db = mongoose.connection.db!
+    const db = mongoose.connection.db!
 
-  await db.dropDatabase()
-  console.log("Dropped existing data")
+    await db.dropDatabase()
+    console.log("Dropped existing data")
 
-  await db.collection("students").insertMany(students)
-  await db.collection("tasks").insertMany(tasks)
-  await db.collection("messages").insertMany(messages)
-  console.log("Seeded students, tasks, messages")
+    await db.collection("students").insertMany(students)
+    await db.collection("tasks").insertMany(tasks)
+    await db.collection("messages").insertMany(messages)
+    console.log("Seeded students, tasks, messages")
 
-  await mongoose.disconnect()
-  console.log("Done")
+    await mongoose.disconnect()
+    console.log("Done")
 }
 
 seed()

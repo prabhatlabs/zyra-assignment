@@ -7,11 +7,6 @@ import messageRoutes from "./messageRoutes"
 const router = Router()
 
 router.use("/students", studentRoutes)
-router.use("/students/:studentId/tasks", TaskController.getTasksByStudent)
-router.use(
-    "/students/:studentId/messages",
-    MessageController.getMessagesByStudent,
-)
 router.use("/tasks", taskRoutes)
 router.use("/messages", messageRoutes)
 

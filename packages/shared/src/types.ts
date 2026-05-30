@@ -26,6 +26,12 @@ export interface Task {
     updatedAt: string
 }
 
+export interface ActionCenterResponse {
+    student: Student
+    tasks: Task[]
+    unreadMessagesCount: number
+}
+
 export interface ApiResponse<T = unknown> {
     status: number
     message: string

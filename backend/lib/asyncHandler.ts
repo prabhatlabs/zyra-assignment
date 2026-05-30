@@ -1,5 +1,6 @@
 import { type Request, type Response, type NextFunction } from "express"
 import type { ApiResponse } from "@zyra-ass/shared"
+import { logger } from "./logger"
 
 export function asyncHandler<T>(
     fn: (
@@ -14,7 +15,7 @@ export function asyncHandler<T>(
                 res.status(apiRes.status).json(apiRes)
             })
             .catch((err: unknown) => {
-                console.error(`[Error]:[${req.method} ${req.path}]:`, err)
+                logger.error({ requestId: req.requestId, err }, `[${req.requestId}] ${req.method} ${req.path}: ${err instanceof Error ? err.message : err}`)
 
                 res.status(500).json({
                     status: 500,

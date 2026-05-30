@@ -1,6 +1,6 @@
+import type { Message } from "@zyra-ass/shared"
 import { asyncHandler } from "../lib/asyncHandler"
 import { MessageModel } from "../models/Message"
-import type { ApiResponse, Message } from "@zyra-ass/shared"
 
 export const getMessages = asyncHandler<Message[]>(
     async (_req, _res, _next) => {
@@ -21,7 +21,7 @@ export const getMessagesByStudent = asyncHandler<Message[]>(
 export const getMessageById = asyncHandler<Message | null>(
     async (req, _res, _next) => {
         const data = await MessageModel.aggregate<Message>([
-            { $match: { _id: req.params.id } },
+            { $match: { id: req.params.id } },
         ]).then((r) => r[0] ?? null)
         if (!data)
             return {
@@ -46,8 +46,8 @@ export const createMessage = asyncHandler<Message>(async (req, _res, _next) => {
 
 export const updateMessage = asyncHandler<Message | null>(
     async (req, _res, _next) => {
-        const data = await MessageModel.findByIdAndUpdate(
-            req.params.id,
+        const data = await MessageModel.findOneAndUpdate(
+            { id: req.params.id },
             req.body,
             { new: true },
         )
@@ -63,7 +63,7 @@ export const updateMessage = asyncHandler<Message | null>(
 )
 
 export const deleteMessage = asyncHandler<null>(async (req, _res, _next) => {
-    const data = await MessageModel.findByIdAndDelete(req.params.id)
+    const data = await MessageModel.findOneAndDelete({ id: req.params.id })
     if (!data)
         return {
             status: 404,

@@ -284,4 +284,8 @@ async function seed() {
     console.log("[Info]: Done")
 }
 
-seed()
+const isMain =
+    typeof process !== "undefined" &&
+    process.argv[1] &&
+    import.meta.url.endsWith(process.argv[1]!)
+if (isMain) seed()

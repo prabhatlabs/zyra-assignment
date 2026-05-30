@@ -33,7 +33,7 @@ export function DashboardPage() {
     const unreadMessages = allMessages.filter((m) => !m.read).length
 
     return (
-        <div className="p-4 md:p-6">
+        <div>
             <div className="mb-6">
                 <h1 className="text-xl font-semibold tracking-tight">
                     Dashboard

@@ -1,21 +1,16 @@
-import { useEffect, useState } from "react"
-import { useParams, Link } from "react-router-dom"
-import { ArrowLeft, RefreshCw } from "lucide-react"
-import { useActionCenterStore } from "@/store/action-center-store"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Skeleton } from "@/components/ui/skeleton"
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { TaskCard } from "@/components/task-card"
-import { MessageList } from "@/components/message-list"
-import { TaskFormDialog } from "@/components/task-form-dialog"
 import { MessageFormDialog } from "@/components/message-form-dialog"
+import { MessageList } from "@/components/message-list"
+import { TaskCard } from "@/components/task-card"
+import { TaskFormDialog } from "@/components/task-form-dialog"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
+import { useActionCenterStore } from "@/store/action-center-store"
 import type { Priority } from "@zyra-ass/shared"
+import { ArrowLeft, RefreshCw } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Link, useParams } from "react-router-dom"
 
 export function StudentDetailPage() {
     const { id } = useParams<{ id: string }>()
@@ -40,6 +35,7 @@ export function StudentDetailPage() {
         dueDate: string
     } | null>(null)
     const [messageDialogOpen, setMessageDialogOpen] = useState(false)
+    const [activeTab, setActiveTab] = useState<"tasks" | "messages">("tasks")
 
     useEffect(() => {
         if (!id) return
@@ -51,6 +47,9 @@ export function StudentDetailPage() {
     if (!id) return null
 
     const unreadCount = messages.filter((m) => !m.read).length
+    const overdueCount = tasks.filter(
+        (t) => t.dueDate && new Date(t.dueDate) < new Date(),
+    ).length
 
     const handleEditTask = (task: {
         id: string
@@ -68,8 +67,8 @@ export function StudentDetailPage() {
     }
 
     return (
-        <div className="p-4 md:p-6">
-            <div className="mb-4 flex items-center gap-3">
+        <div className="flex flex-col">
+            <div className="sticky top-0 z-10 mb-8 flex items-center gap-3 bg-background">
                 <Button variant="ghost" size="icon" asChild>
                     <Link to="/">
                         <ArrowLeft className="size-4" />
@@ -90,17 +89,15 @@ export function StudentDetailPage() {
                     onClick={() => refreshAll(id)}
                     disabled={refreshing}
                 >
-                    <RefreshCw
-                        className={
-                            refreshing ? "animate-spin" : ""
-                        }
-                    />
+                    <RefreshCw className={refreshing ? "animate-spin" : ""} />
                     Refresh
                 </Button>
+
+                <div className="absolute w-[110%] left-1/2 -translate-x-1/2 bg-background h-40 mask-b-from-60% -z-10 pointer-events-none"></div>
             </div>
 
             {error && !loading ? (
-                <div className="flex flex-col items-center gap-4 py-16">
+                <div className="flex flex-1 flex-col items-center gap-4 py-16">
                     <p className="text-sm text-muted-foreground">{error}</p>
                     <Button
                         variant="outline"
@@ -114,142 +111,193 @@ export function StudentDetailPage() {
                     </Button>
                 </div>
             ) : (
-                <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-                    <aside className="space-y-4">
-                        {loading ? (
-                            <>
-                                <Skeleton className="h-40 rounded-xl" />
-                                <Skeleton className="h-24 rounded-xl" />
-                            </>
-                        ) : student ? (
-                            <>
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>
-                                            {student.name}
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="space-y-1.5 text-sm">
-                                        <p className="text-muted-foreground">
-                                            {student.email}
-                                        </p>
-                                        <p>
-                                            Grade {student.grade} &middot; GPA:{" "}
-                                            {student.gpa}
-                                        </p>
-                                        <Badge
-                                            variant={
-                                                student.enrollmentStatus ===
+                <div className="min-h-0 flex-1">
+                    <div className="grid h-full min-h-0 gap-6 lg:grid-cols-[280px_1fr]">
+                        <aside className="lg:sticky top-0 self-start space-y-4">
+                            {loading ? (
+                                <>
+                                    <Skeleton className="h-40 rounded-xl" />
+                                    <Skeleton className="h-24 rounded-xl" />
+                                </>
+                            ) : student ? (
+                                <>
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>
+                                                {student.name}
+                                            </CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="space-y-1.5 text-sm">
+                                            <p className="text-muted-foreground">
+                                                {student.email}
+                                            </p>
+                                            <p>
+                                                Grade {student.grade} &middot;
+                                                GPA: {student.gpa}
+                                            </p>
+                                            <Badge
+                                                variant={
+                                                    student.enrollmentStatus ===
+                                                    "at_risk"
+                                                        ? "destructive"
+                                                        : "secondary"
+                                                }
+                                            >
+                                                {student.enrollmentStatus ===
                                                 "at_risk"
-                                                    ? "destructive"
-                                                    : "secondary"
-                                            }
-                                        >
-                                            {student.enrollmentStatus ===
-                                            "at_risk"
-                                                ? "At Risk"
-                                                : "Active"}
-                                        </Badge>
-                                    </CardContent>
-                                </Card>
+                                                    ? "At Risk"
+                                                    : "Active"}
+                                            </Badge>
+                                        </CardContent>
+                                    </Card>
 
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle className="text-sm font-medium">
-                                            Messages
-                                        </CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <p className="text-3xl font-semibold">
-                                            {unreadCount}
-                                            <span className="ml-1 text-xs font-normal text-muted-foreground">
-                                                unread
-                                            </span>
-                                        </p>
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle className="text-sm font-medium">
+                                                Tasks
+                                            </CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-3xl font-semibold">
+                                                {tasks.length}
+                                                <span className="ml-1 text-xs font-normal text-muted-foreground">
+                                                    total
+                                                </span>
+                                            </p>
+                                            {overdueCount > 0 && (
+                                                <p className="mt-1 text-xs text-destructive">
+                                                    {overdueCount} overdue
+                                                </p>
+                                            )}
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="mt-3 w-full"
+                                                onClick={() => {
+                                                    setActiveTab("tasks")
+                                                }}
+                                            >
+                                                View Tasks
+                                            </Button>
+                                        </CardContent>
+                                    </Card>
+
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle className="text-sm font-medium">
+                                                Messages
+                                            </CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-3xl font-semibold">
+                                                {unreadCount}
+                                                <span className="ml-1 text-xs font-normal text-muted-foreground">
+                                                    unread
+                                                </span>
+                                            </p>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="mt-3 w-full"
+                                                onClick={() =>
+                                                    setMessageDialogOpen(true)
+                                                }
+                                            >
+                                                Send Message
+                                            </Button>
+                                        </CardContent>
+                                    </Card>
+                                </>
+                            ) : null}
+                        </aside>
+
+                        <section className="flex flex-col">
+                            <div className="mb-4 flex items-center gap-1 border-b">
+                                <button
+                                    onClick={() => setActiveTab("tasks")}
+                                    data-active={activeTab === "tasks"}
+                                    className="px-3 py-2 text-sm font-medium text-muted-foreground data-[active=true]:border-b-2 data-[active=true]:border-primary data-[active=true]:text-foreground"
+                                >
+                                    Tasks ({tasks.length})
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab("messages")}
+                                    data-active={activeTab === "messages"}
+                                    className="px-3 py-2 text-sm font-medium text-muted-foreground data-[active=true]:border-b-2 data-[active=true]:border-primary data-[active=true]:text-foreground"
+                                >
+                                    Messages ({messages.length})
+                                </button>
+                                <div className="ml-auto flex items-center gap-2">
+                                    {activeTab === "tasks" && (
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            className="mt-3 w-full"
+                                            onClick={() => {
+                                                setEditingTask(null)
+                                                setTaskDialogOpen(true)
+                                            }}
+                                        >
+                                            Add Task
+                                        </Button>
+                                    )}
+                                    {activeTab === "messages" && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
                                             onClick={() =>
                                                 setMessageDialogOpen(true)
                                             }
                                         >
                                             Send Message
                                         </Button>
-                                    </CardContent>
-                                </Card>
-                            </>
-                        ) : null}
-                    </aside>
-
-                    <section className="space-y-6">
-                        <div>
-                            <div className="mb-3 flex items-center justify-between">
-                                <h2 className="text-sm font-medium text-muted-foreground">
-                                    {loading
-                                        ? "Tasks"
-                                        : `Tasks (${tasks.length})`}
-                                </h2>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => {
-                                        setEditingTask(null)
-                                        setTaskDialogOpen(true)
-                                    }}
-                                >
-                                    Add Task
-                                </Button>
+                                    )}
+                                </div>
                             </div>
 
-                            {loading ? (
-                                <div className="space-y-3">
-                                    {[1, 2, 3].map((i) => (
-                                        <Skeleton
-                                            key={i}
-                                            className="h-28 w-full rounded-xl"
-                                        />
-                                    ))}
-                                </div>
-                            ) : tasks.length === 0 ? (
-                                <Card>
-                                    <CardContent className="py-8 text-center text-sm text-muted-foreground">
-                                        No tasks assigned yet
-                                    </CardContent>
-                                </Card>
-                            ) : (
-                                <div className="space-y-3">
-                                    {tasks.map((task) => (
-                                        <TaskCard
-                                            key={task.id}
-                                            task={task}
-                                            onEdit={() =>
-                                                handleEditTask(task)
-                                            }
-                                            onDelete={() =>
-                                                handleDeleteTask(task.id)
-                                            }
-                                        />
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        <div>
-                            <div className="mb-3 flex items-center justify-between">
-                                <h2 className="text-sm font-medium text-muted-foreground">
-                                    {loading
-                                        ? "Messages"
-                                        : `Messages (${messages.length})`}
-                                </h2>
+                            <div>
+                                {loading ? (
+                                    <div className="space-y-3">
+                                        {[1, 2, 3].map((i) => (
+                                            <Skeleton
+                                                key={i}
+                                                className="h-28 w-full rounded-xl"
+                                            />
+                                        ))}
+                                    </div>
+                                ) : activeTab === "tasks" ? (
+                                    tasks.length === 0 ? (
+                                        <Card>
+                                            <CardContent className="py-8 text-center text-sm text-muted-foreground">
+                                                No tasks assigned yet
+                                            </CardContent>
+                                        </Card>
+                                    ) : (
+                                        <div className="space-y-3">
+                                            {tasks.map((task) => (
+                                                <TaskCard
+                                                    key={task.id}
+                                                    task={task}
+                                                    onEdit={() =>
+                                                        handleEditTask(task)
+                                                    }
+                                                    onDelete={() =>
+                                                        handleDeleteTask(
+                                                            task.id,
+                                                        )
+                                                    }
+                                                />
+                                            ))}
+                                        </div>
+                                    )
+                                ) : (
+                                    <MessageList
+                                        messages={messages}
+                                        loading={loading}
+                                    />
+                                )}
                             </div>
-
-                            <MessageList
-                                messages={messages}
-                                loading={loading}
-                            />
-                        </div>
-                    </section>
+                        </section>
+                    </div>
                 </div>
             )}
 

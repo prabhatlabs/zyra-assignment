@@ -13,7 +13,7 @@ export function AppLayout({ children }: AppLayoutProps) {
             <AppSidebar />
             <SidebarInset>
                 <div className="flex flex-1 flex-col overflow-hidden">
-                    <nav className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur-sm">
+                    <nav className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
                         <div className="flex items-center gap-2 px-4 py-3">
                             <SidebarTrigger />
                             <span className="text-sm font-semibold">Zyra</span>

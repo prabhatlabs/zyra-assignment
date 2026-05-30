@@ -30,7 +30,7 @@ export function StudentsPage() {
     )
 
     return (
-        <div className="p-4 md:p-6">
+        <div>
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-xl font-semibold tracking-tight">

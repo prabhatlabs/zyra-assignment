@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import envvars from "./constants/envvars"
+import { connectDB } from "./lib/db"
 
 // #region mock-data
 export const students = [
@@ -268,21 +268,20 @@ export const messages = [
 // #endregion
 
 async function seed() {
-    await mongoose.connect(envvars.MONGODB_URI)
-    console.log("Connected to MongoDB")
+    await connectDB()
 
     const db = mongoose.connection.db!
 
     await db.dropDatabase()
-    console.log("Dropped existing data")
+    console.log("[Info]: Dropped existing data")
 
     await db.collection("students").insertMany(students)
     await db.collection("tasks").insertMany(tasks)
     await db.collection("messages").insertMany(messages)
-    console.log("Seeded students, tasks, messages")
+    console.log("[Info]: Seeded students, tasks, messages")
 
     await mongoose.disconnect()
-    console.log("Done")
+    console.log("[Info]: Done")
 }
 
 seed()

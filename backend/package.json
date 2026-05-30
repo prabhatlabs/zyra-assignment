@@ -3,13 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun --watch src/server.ts",
-    "start": "bun src/server.ts",
+    "dev": "bun --watch server.ts",
+    "start": "bun server.ts",
     "test": "vitest run",
+    "seed": "bun mock_data.ts",
     "test:watch": "vitest"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.17.0",
+    "@zyra-ass/shared": "workspace:*",
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "mongoose": "^8.10.0",

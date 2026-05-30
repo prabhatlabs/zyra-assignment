@@ -1,3 +1,7 @@
+import mongoose from "mongoose";
+import envvars from "./constants/envvars";
+
+// #region mock-data
 export const students = [
     {
         id: "stu_001",
@@ -248,3 +252,24 @@ export const messages = [
         receivedAt: "2026-05-21T08:00:00Z",
     },
 ];
+// #endregion
+
+async function seed() {
+  await mongoose.connect(envvars.MONGODB_URI)
+  console.log("Connected to MongoDB")
+
+  const db = mongoose.connection.db!
+
+  await db.dropDatabase()
+  console.log("Dropped existing data")
+
+  await db.collection("students").insertMany(students)
+  await db.collection("tasks").insertMany(tasks)
+  await db.collection("messages").insertMany(messages)
+  console.log("Seeded students, tasks, messages")
+
+  await mongoose.disconnect()
+  console.log("Done")
+}
+
+seed()

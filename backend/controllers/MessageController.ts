@@ -39,7 +39,7 @@ export const createMessage = asyncHandler<Message>(async (req, _res, _next) => {
     return {
         status: 201,
         message: "Message created",
-        data: doc.toObject(),
+        data: doc.toObject({ virtuals: true }),
         error: null,
     }
 })

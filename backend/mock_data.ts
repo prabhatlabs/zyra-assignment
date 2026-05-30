@@ -265,6 +265,12 @@ export const messages = [
         receivedAt: "2026-05-21T08:00:00Z",
     },
 ]
+
+export const counters = [
+    { prefix: "stu", seq: 3 },
+    { prefix: "tsk", seq: 13 },
+    { prefix: "msg", seq: 8 },
+]
 // #endregion
 
 async function seed() {
@@ -278,7 +284,8 @@ async function seed() {
     await db.collection("students").insertMany(students)
     await db.collection("tasks").insertMany(tasks)
     await db.collection("messages").insertMany(messages)
-    console.log("[Info]: Seeded students, tasks, messages")
+    await db.collection("counters").insertMany(counters)
+    console.log("[Info]: Seeded students, tasks, messages, counters")
 
     await mongoose.disconnect()
     console.log("[Info]: Done")

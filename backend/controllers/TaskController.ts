@@ -37,7 +37,7 @@ export const createTask = asyncHandler<Task>(async (req, _res, _next) => {
     return {
         status: 201,
         message: "Task created",
-        data: doc.toObject(),
+        data: doc.toObject({ virtuals: true }),
         error: null,
     }
 })

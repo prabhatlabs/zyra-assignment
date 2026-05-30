@@ -1,8 +1,10 @@
 import { Schema, model } from "mongoose"
 import type { Task } from "@zyra-ass/shared"
+import { nextId } from "../lib/counter"
 
 const taskSchema = new Schema<Task>(
     {
+        id: { type: String },
         studentId: { type: String, required: true, index: true },
         title: { type: String, required: true },
         description: { type: String, required: true },
@@ -20,5 +22,12 @@ const taskSchema = new Schema<Task>(
     },
     { timestamps: true },
 )
+
+taskSchema.pre("save", async function (next) {
+    if (!this.id) {
+        this.id = await nextId("tsk")
+    }
+    next()
+})
 
 export const TaskModel = model<Task>("Task", taskSchema)

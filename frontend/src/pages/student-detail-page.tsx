@@ -93,7 +93,7 @@ export function StudentDetailPage() {
                     Refresh
                 </Button>
 
-                <div className="absolute w-[110%] left-1/2 -translate-x-1/2 bg-background h-40 mask-b-from-60% -z-10 pointer-events-none"></div>
+                <div className="absolute w-full left-1/2 -translate-x-1/2 bg-background h-40 mask-b-from-60% -z-10 pointer-events-none"></div>
             </div>
 
             {error && !loading ? (
@@ -113,7 +113,7 @@ export function StudentDetailPage() {
             ) : (
                 <div className="min-h-0 flex-1">
                     <div className="grid h-full min-h-0 gap-6 lg:grid-cols-[280px_1fr]">
-                        <aside className="lg:sticky top-0 self-start space-y-4">
+                        <aside className="lg:sticky top-0 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-1">
                             {loading ? (
                                 <>
                                     <Skeleton className="h-40 rounded-xl" />
@@ -195,6 +195,11 @@ export function StudentDetailPage() {
                                                     unread
                                                 </span>
                                             </p>
+                                            {messages.length > 0 && (
+                                                <p className="mt-1 text-xs text-muted-foreground">
+                                                    {messages.length} message{messages.length !== 1 && "s"}
+                                                </p>
+                                            )}
                                             <Button
                                                 variant="outline"
                                                 size="sm"

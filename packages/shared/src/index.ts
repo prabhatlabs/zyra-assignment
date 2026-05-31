@@ -7,4 +7,5 @@ export type {
     Message,
     ActionCenterResponse,
     ApiResponse,
+    DashboardSummary,
 } from "./types.ts"

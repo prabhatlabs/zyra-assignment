@@ -39,6 +39,13 @@ export interface ApiResponse<T = unknown> {
     error: string | null
 }
 
+export interface DashboardSummary {
+    totalStudents: number
+    atRiskCount: number
+    pendingTasks: number
+    unreadMessages: number
+}
+
 export interface Message {
     id: string
     studentId: string

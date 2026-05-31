@@ -14,23 +14,14 @@ import { Button } from "@/components/ui/button"
 
 export function DashboardPage() {
     const fetch = useDashboardStore((s) => s.fetch)
+    const summary = useDashboardStore((s) => s.summary)
     const students = useDashboardStore((s) => s.students)
-    const allTasks = useDashboardStore((s) => s.allTasks)
-    const allMessages = useDashboardStore((s) => s.allMessages)
     const loading = useDashboardStore((s) => s.loading)
     const error = useDashboardStore((s) => s.error)
 
     useEffect(() => {
         fetch()
     }, [fetch])
-
-    const atRiskCount = students.filter(
-        (s) => s.enrollmentStatus === "at_risk",
-    ).length
-    const pendingTasks = allTasks.filter(
-        (t) => t.status !== "completed",
-    ).length
-    const unreadMessages = allMessages.filter((m) => !m.read).length
 
     return (
         <div>
@@ -52,7 +43,7 @@ export function DashboardPage() {
                 </div>
             ) : (
                 <>
-                    <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="mb-6 grid gap-4 grid-cols-2 lg:grid-cols-4">
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
@@ -65,7 +56,7 @@ export function DashboardPage() {
                                     <Skeleton className="h-8 w-12" />
                                 ) : (
                                     <p className="text-3xl font-semibold">
-                                        {students.length}
+                                        {summary?.totalStudents ?? 0}
                                     </p>
                                 )}
                             </CardContent>
@@ -83,7 +74,7 @@ export function DashboardPage() {
                                     <Skeleton className="h-8 w-12" />
                                 ) : (
                                     <p className="text-3xl font-semibold text-destructive">
-                                        {atRiskCount}
+                                        {summary?.atRiskCount ?? 0}
                                     </p>
                                 )}
                             </CardContent>
@@ -101,7 +92,7 @@ export function DashboardPage() {
                                     <Skeleton className="h-8 w-12" />
                                 ) : (
                                     <p className="text-3xl font-semibold">
-                                        {pendingTasks}
+                                        {summary?.pendingTasks ?? 0}
                                     </p>
                                 )}
                             </CardContent>
@@ -119,7 +110,7 @@ export function DashboardPage() {
                                     <Skeleton className="h-8 w-12" />
                                 ) : (
                                     <p className="text-3xl font-semibold">
-                                        {unreadMessages}
+                                        {summary?.unreadMessages ?? 0}
                                     </p>
                                 )}
                             </CardContent>
@@ -129,7 +120,7 @@ export function DashboardPage() {
                     <div className="mb-4 flex items-center justify-between">
                         <h2 className="text-sm font-medium text-muted-foreground">
                             {loading
-                                ? "Students"
+                                ? "All Students"
                                 : `All Students (${students.length})`}
                         </h2>
                     </div>

@@ -1,12 +1,11 @@
 import { create } from "zustand"
 import { toast } from "sonner"
-import type { Student, Task, Message } from "@zyra-ass/shared"
+import type { Student, DashboardSummary } from "@zyra-ass/shared"
 import { fetcher, FetchError } from "@/lib/fetcher"
 
 interface DashboardState {
+    summary: DashboardSummary | null
     students: Student[]
-    allTasks: Task[]
-    allMessages: Message[]
     loading: boolean
     error: string | null
     refreshing: boolean
@@ -16,9 +15,8 @@ interface DashboardState {
 }
 
 export const useDashboardStore = create<DashboardState>((set) => ({
+    summary: null,
     students: [],
-    allTasks: [],
-    allMessages: [],
     loading: false,
     error: null,
     refreshing: false,
@@ -26,12 +24,11 @@ export const useDashboardStore = create<DashboardState>((set) => ({
     fetch: async () => {
         set({ loading: true, error: null })
         try {
-            const [students, allTasks, allMessages] = await Promise.all([
+            const [summary, students] = await Promise.all([
+                fetcher<DashboardSummary>("/dashboard/summary"),
                 fetcher<Student[]>("/students"),
-                fetcher<Task[]>("/tasks"),
-                fetcher<Message[]>("/messages"),
             ])
-            set({ students, allTasks, allMessages, loading: false })
+            set({ summary, students, loading: false })
         } catch (err) {
             const message =
                 err instanceof FetchError
@@ -45,12 +42,11 @@ export const useDashboardStore = create<DashboardState>((set) => ({
     refresh: async () => {
         set({ refreshing: true, error: null })
         try {
-            const [students, allTasks, allMessages] = await Promise.all([
+            const [summary, students] = await Promise.all([
+                fetcher<DashboardSummary>("/dashboard/summary"),
                 fetcher<Student[]>("/students"),
-                fetcher<Task[]>("/tasks"),
-                fetcher<Message[]>("/messages"),
             ])
-            set({ students, allTasks, allMessages, refreshing: false })
+            set({ summary, students, refreshing: false })
             toast.success("Dashboard refreshed")
         } catch (err) {
             const message =

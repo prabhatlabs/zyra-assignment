@@ -17,6 +17,16 @@ A full-stack platform for counselors to manage student tasks, track action items
 
 ---
 
+## Screenshots
+
+| Dashboard | Student Details | Task Form |
+|-----------|----------------|-----------|
+| ![Dashboard](images/dashboard.png) | ![Student Details](images/student-details.png) | ![Task Form](images/task-form.png) |
+
+> The app includes a **light/dark theme toggle** in the top header.
+
+---
+
 ## Setup & Run
 
 ### Prerequisites

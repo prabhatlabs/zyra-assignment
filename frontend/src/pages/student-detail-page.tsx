@@ -113,7 +113,7 @@ export function StudentDetailPage() {
             ) : (
                 <div className="min-h-0 flex-1">
                     <div className="grid h-full min-h-0 gap-6 lg:grid-cols-[280px_1fr]">
-                        <aside className="lg:sticky top-0 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-1">
+                        <aside className="lg:sticky top-0 flex flex-col gap-4">
                             {loading ? (
                                 <>
                                     <Skeleton className="h-40 rounded-xl" />

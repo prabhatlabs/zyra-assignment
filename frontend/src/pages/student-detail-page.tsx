@@ -116,8 +116,9 @@ export function StudentDetailPage() {
                         <aside className="lg:sticky top-0 flex flex-col gap-4">
                             {loading ? (
                                 <>
-                                    <Skeleton className="h-40 rounded-xl" />
-                                    <Skeleton className="h-24 rounded-xl" />
+                                    <Skeleton className="h-38 rounded-xl" />
+                                    <Skeleton className="h-38 rounded-xl" />
+                                    <Skeleton className="h-38 rounded-xl" />
                                 </>
                             ) : student ? (
                                 <>

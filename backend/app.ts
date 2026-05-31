@@ -1,3 +1,4 @@
+import path from "path"
 import cors from "cors"
 import express from "express"
 import routes from "./routes"
@@ -17,6 +18,13 @@ app.get("/api/v1/health", (_req, res) => {
 })
 
 app.use("/api/v1", routes)
+
+const publicDir = path.resolve(import.meta.dir, "public")
+app.use(express.static(publicDir))
+app.get("*", (_req, res) => {
+    res.sendFile(path.join(publicDir, "index.html"))
+})
+
 app.use(globalErrorHandler)
 
 export default app

@@ -14,7 +14,9 @@
         "test:backend": "bun run --cwd backend test",
         "test:frontend": "bun run --cwd frontend test",
         "format": "prettier --write .",
-        "format:check": "prettier --check ."
+        "format:check": "prettier --check .",
+        "deploy": "bun run --cwd frontend build && rm -rf backend/public && cp -r frontend/dist backend/public",
+        "serve": "bun run --cwd backend start"
     },
     "devDependencies": {
         "prettier": "^3.8.3"

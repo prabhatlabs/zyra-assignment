@@ -16,7 +16,9 @@
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "deploy": "bun run --cwd frontend build && rm -rf backend/public && cp -r frontend/dist backend/public",
-        "serve": "bun run --cwd backend start"
+        "serve": "bun run --cwd backend start",
+        "docker:build": "docker build -t zyra-ass .",
+        "docker:run": "docker run -p 8000:8000 --env-file backend/.env zyra-ass"
     },
     "devDependencies": {
         "prettier": "^3.8.3"

@@ -15,7 +15,10 @@ export function asyncHandler<T>(
                 res.status(apiRes.status).json(apiRes)
             })
             .catch((err: unknown) => {
-                logger.error({ requestId: req.requestId, err }, `[${req.requestId}] ${req.method} ${req.path}: ${err instanceof Error ? err.message : err}`)
+                logger.error(
+                    { requestId: req.requestId, err },
+                    `[${req.requestId}] ${req.method} ${req.path}: ${err instanceof Error ? err.message : err}`,
+                )
 
                 res.status(500).json({
                     status: 500,

@@ -1,12 +1,7 @@
 import type { Message } from "@zyra-ass/shared"
 import { useActionCenterStore } from "@/store/action-center-store"
 import { Skeleton } from "@/components/ui/skeleton"
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
@@ -49,11 +44,7 @@ export function MessageList({ messages, loading }: Props) {
                     }}
                     className="w-full text-left"
                 >
-                    <Card
-                        className={cn(
-                            "transition-colors hover:bg-muted/50",
-                        )}
-                    >
+                    <Card className={cn("transition-colors hover:bg-muted/50")}>
                         <CardHeader>
                             <div className="flex items-start justify-between gap-2">
                                 <CardTitle
@@ -65,7 +56,10 @@ export function MessageList({ messages, loading }: Props) {
                                     {msg.subject}
                                 </CardTitle>
                                 {!msg.read && (
-                                    <Badge variant="default" className="shrink-0">
+                                    <Badge
+                                        variant="default"
+                                        className="shrink-0"
+                                    >
                                         New
                                     </Badge>
                                 )}
@@ -79,9 +73,7 @@ export function MessageList({ messages, loading }: Props) {
                                 {msg.preview}
                             </p>
                             <p className="text-xs text-muted-foreground">
-                                {new Date(
-                                    msg.receivedAt,
-                                ).toLocaleDateString()}
+                                {new Date(msg.receivedAt).toLocaleDateString()}
                             </p>
                         </CardContent>
                     </Card>

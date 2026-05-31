@@ -197,7 +197,9 @@ export function StudentDetailPage() {
                                             </p>
                                             {messages.length > 0 && (
                                                 <p className="mt-1 text-xs text-muted-foreground">
-                                                    {messages.length} message{messages.length !== 1 && "s"}
+                                                    {messages.length} message
+                                                    {messages.length !== 1 &&
+                                                        "s"}
                                                 </p>
                                             )}
                                             <Button

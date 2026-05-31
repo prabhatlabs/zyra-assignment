@@ -9,11 +9,7 @@ interface Props {
     studentId: string
 }
 
-export function MessageFormDialog({
-    open,
-    onOpenChange,
-    studentId,
-}: Props) {
+export function MessageFormDialog({ open, onOpenChange, studentId }: Props) {
     const createMessage = useActionCenterStore((s) => s.createMessage)
     const [from, setFrom] = useState("")
     const [subject, setSubject] = useState("")
@@ -106,7 +102,9 @@ export function MessageFormDialog({
                             </Button>
                             <Button
                                 type="submit"
-                                disabled={saving || !from.trim() || !subject.trim()}
+                                disabled={
+                                    saving || !from.trim() || !subject.trim()
+                                }
                             >
                                 {saving ? "Sending..." : "Send"}
                             </Button>

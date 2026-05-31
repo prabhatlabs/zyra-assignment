@@ -4,23 +4,23 @@ A full-stack platform for counselors to manage student tasks, track action items
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Runtime | **Bun** (package manager + runtime) |
-| Monorepo | Native npm workspaces |
+| Layer    | Technology                                                                   |
+| -------- | ---------------------------------------------------------------------------- |
+| Runtime  | **Bun** (package manager + runtime)                                          |
+| Monorepo | Native npm workspaces                                                        |
 | Frontend | **React 19**, **Vite 8**, **TypeScript**, **Tailwind CSS v4**, **shadcn/ui** |
-| State | **Zustand** (client state), custom fetcher (API layer) |
-| Backend | **Express**, **Mongoose**, **Pino** (logging) |
-| Database | **MongoDB** |
-| Testing | **Vitest**, **supertest**, **Testing Library** |
-| Shared | `@zyra-ass/shared` — common TypeScript types |
+| State    | **Zustand** (client state), custom fetcher (API layer)                       |
+| Backend  | **Express**, **Mongoose**, **Pino** (logging)                                |
+| Database | **MongoDB**                                                                  |
+| Testing  | **Vitest**, **supertest**, **Testing Library**                               |
+| Shared   | `@zyra-ass/shared` — common TypeScript types                                 |
 
 ---
 
 ## Screenshots
 
-| Dashboard | Student Details | Task Form |
-|-----------|----------------|-----------|
+| Dashboard                          | Student Details                                | Task Form                          |
+| ---------------------------------- | ---------------------------------------------- | ---------------------------------- |
 | ![Dashboard](images/dashboard.png) | ![Student Details](images/student-details.png) | ![Task Form](images/task-form.png) |
 
 > The app includes a **light/dark theme toggle** in the top header.
@@ -138,7 +138,12 @@ Middleware pipeline:
 Every controller returns a standardized `ApiResponse<T>` envelope:
 
 ```ts
-{ status: number; message: string; data: T | null; error: string | null }
+{
+    status: number
+    message: string
+    data: T | null
+    error: string | null
+}
 ```
 
 ### Shared Types
@@ -161,49 +166,49 @@ All endpoints are prefixed with `/api/v1` and return the same envelope:
 
 ### Dashboard
 
-| Method | Endpoint | Description | Response `data` |
-|--------|----------|-------------|-----------------|
-| `GET` | `/dashboard/summary` | Aggregated counts | `{ totalStudents, atRiskCount, pendingTasks, unreadMessages }` |
+| Method | Endpoint             | Description       | Response `data`                                                |
+| ------ | -------------------- | ----------------- | -------------------------------------------------------------- |
+| `GET`  | `/dashboard/summary` | Aggregated counts | `{ totalStudents, atRiskCount, pendingTasks, unreadMessages }` |
 
 ### Students
 
-| Method | Endpoint | Description | Response `data` |
-|--------|----------|-------------|-----------------|
-| `GET` | `/students` | List all students | `Student[]` |
-| `GET` | `/students/:id` | Single student | `Student` |
-| `GET` | `/students/:id/action-center` | Student + tasks + unread count | `{ student, tasks, unreadMessagesCount }` |
-| `GET` | `/students/:studentId/tasks` | Tasks for a student | `Task[]` |
-| `GET` | `/students/:studentId/messages` | Messages for a student | `Message[]` |
-| `POST` | `/students` | Create student | `Student` |
-| `PATCH` | `/students/:id` | Update student | `Student` |
-| `DELETE` | `/students/:id` | Delete student | `null` |
+| Method   | Endpoint                        | Description                    | Response `data`                           |
+| -------- | ------------------------------- | ------------------------------ | ----------------------------------------- |
+| `GET`    | `/students`                     | List all students              | `Student[]`                               |
+| `GET`    | `/students/:id`                 | Single student                 | `Student`                                 |
+| `GET`    | `/students/:id/action-center`   | Student + tasks + unread count | `{ student, tasks, unreadMessagesCount }` |
+| `GET`    | `/students/:studentId/tasks`    | Tasks for a student            | `Task[]`                                  |
+| `GET`    | `/students/:studentId/messages` | Messages for a student         | `Message[]`                               |
+| `POST`   | `/students`                     | Create student                 | `Student`                                 |
+| `PATCH`  | `/students/:id`                 | Update student                 | `Student`                                 |
+| `DELETE` | `/students/:id`                 | Delete student                 | `null`                                    |
 
 ### Tasks
 
-| Method | Endpoint | Description | Response `data` |
-|--------|----------|-------------|-----------------|
-| `GET` | `/tasks` | List all tasks | `Task[]` |
-| `GET` | `/tasks/:id` | Single task | `Task` |
-| `POST` | `/tasks` | Create task | `Task` |
-| `PATCH` | `/tasks/:id` | Update task | `Task` |
-| `PATCH` | `/tasks/:taskId/status` | Update status only | `Task` |
-| `DELETE` | `/tasks/:id` | Delete task | `null` |
+| Method   | Endpoint                | Description        | Response `data` |
+| -------- | ----------------------- | ------------------ | --------------- |
+| `GET`    | `/tasks`                | List all tasks     | `Task[]`        |
+| `GET`    | `/tasks/:id`            | Single task        | `Task`          |
+| `POST`   | `/tasks`                | Create task        | `Task`          |
+| `PATCH`  | `/tasks/:id`            | Update task        | `Task`          |
+| `PATCH`  | `/tasks/:taskId/status` | Update status only | `Task`          |
+| `DELETE` | `/tasks/:id`            | Delete task        | `null`          |
 
 ### Messages
 
-| Method | Endpoint | Description | Response `data` |
-|--------|----------|-------------|-----------------|
-| `GET` | `/messages` | List all messages | `Message[]` |
-| `GET` | `/messages/:id` | Single message | `Message` |
-| `POST` | `/messages` | Create message | `Message` |
-| `PATCH` | `/messages/:id` | Update message | `Message` |
-| `DELETE` | `/messages/:id` | Delete message | `null` |
+| Method   | Endpoint        | Description       | Response `data` |
+| -------- | --------------- | ----------------- | --------------- |
+| `GET`    | `/messages`     | List all messages | `Message[]`     |
+| `GET`    | `/messages/:id` | Single message    | `Message`       |
+| `POST`   | `/messages`     | Create message    | `Message`       |
+| `PATCH`  | `/messages/:id` | Update message    | `Message`       |
+| `DELETE` | `/messages/:id` | Delete message    | `null`          |
 
 ### Key Types
 
 ```ts
 interface Student {
-    id: string             // "stu_001"
+    id: string // "stu_001"
     name: string
     email: string
     grade: number
@@ -213,7 +218,7 @@ interface Student {
 }
 
 interface Task {
-    id: string             // "tsk_001"
+    id: string // "tsk_001"
     studentId: string
     title: string
     description: string
@@ -225,7 +230,7 @@ interface Task {
 }
 
 interface Message {
-    id: string             // "msg_001"
+    id: string // "msg_001"
     studentId: string
     from: string
     subject: string
@@ -258,10 +263,10 @@ Each query hits an indexed field and returns a single integer. This is the most 
 
 **Tradeoff:** 4 database round-trips vs. a single aggregation pipeline with `$lookup`. For simple counts on indexed fields, 4 lightweight `countDocuments` calls are faster and more maintainable than a cross-collection `$lookup` aggregation. The overhead of an extra round-trip is negligible compared to the complexity and brittleness of `$facet` + `$lookup`.
 
-| Approach | DB round-trips | Code complexity | Works with sharded cluster | Handles empty collections |
-|----------|---------------|-----------------|---------------------------|--------------------------|
-| 4× `countDocuments` | 4 | Low | Yes | Yes |
-| Single `$facet` + `$lookup` pipeline | 1 | High | No | Requires `$documents` seed |
+| Approach                             | DB round-trips | Code complexity | Works with sharded cluster | Handles empty collections  |
+| ------------------------------------ | -------------- | --------------- | -------------------------- | -------------------------- |
+| 4× `countDocuments`                  | 4              | Low             | Yes                        | Yes                        |
+| Single `$facet` + `$lookup` pipeline | 1              | High            | No                         | Requires `$documents` seed |
 
 The `countDocuments` approach is the right call here: simpler code, no edge cases, and `countDocuments` on indexed fields is already optimal.
 
@@ -276,6 +281,7 @@ Task status changes, edits, deletes, and message reads update local Zustand stat
 The app uses Zustand with manual fetch triggers rather than React Query / TanStack Query. There is no stale-while-revalidate, request deduplication, or automatic background refetching.
 
 **Tradeoff:** Simpler setup and fewer dependencies. For a production app with many users and frequent data changes, adding React Query would provide:
+
 - Automatic cache invalidation after mutations
 - Request deduplication (same URL in-flight coalesced)
 - Background refetching on tab focus

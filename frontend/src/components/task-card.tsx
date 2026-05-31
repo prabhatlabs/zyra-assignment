@@ -2,12 +2,7 @@ import { useState } from "react"
 import type { Task, TaskStatus } from "@zyra-ass/shared"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useActionCenterStore } from "@/store/action-center-store"
 
 interface Props {
@@ -48,7 +43,15 @@ export function TaskCard({ task, onEdit, onDelete }: Props) {
             <CardHeader>
                 <div className="flex items-center justify-between gap-2">
                     <CardTitle className="truncate">{task.title}</CardTitle>
-                    <Badge variant={task.priority as "urgent" | "high" | "medium" | "low"}>
+                    <Badge
+                        variant={
+                            task.priority as
+                                | "urgent"
+                                | "high"
+                                | "medium"
+                                | "low"
+                        }
+                    >
                         {priorityLabel[task.priority]}
                     </Badge>
                 </div>
@@ -65,11 +68,7 @@ export function TaskCard({ task, onEdit, onDelete }: Props) {
                     </span>
                     <div className="flex items-center gap-1">
                         {onEdit && (
-                            <Button
-                                variant="ghost"
-                                size="xs"
-                                onClick={onEdit}
-                            >
+                            <Button variant="ghost" size="xs" onClick={onEdit}>
                                 Edit
                             </Button>
                         )}

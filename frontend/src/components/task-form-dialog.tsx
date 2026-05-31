@@ -96,9 +96,7 @@ export function TaskFormDialog({
 
                     <form onSubmit={handleSubmit} className="mt-4 space-y-4">
                         <div className="space-y-1.5">
-                            <label className="text-sm font-medium">
-                                Title
-                            </label>
+                            <label className="text-sm font-medium">Title</label>
                             <input
                                 type="text"
                                 value={title}
@@ -115,9 +113,7 @@ export function TaskFormDialog({
                             </label>
                             <textarea
                                 value={description}
-                                onChange={(e) =>
-                                    setDescription(e.target.value)
-                                }
+                                onChange={(e) => setDescription(e.target.value)}
                                 rows={3}
                                 className="w-full rounded-lg border bg-background px-3 py-2 text-sm outline-none focus:border-ring focus:ring-3 focus:ring-ring/50"
                                 placeholder="Optional description"
@@ -156,9 +152,7 @@ export function TaskFormDialog({
                                 <input
                                     type="date"
                                     value={dueDate}
-                                    onChange={(e) =>
-                                        setDueDate(e.target.value)
-                                    }
+                                    onChange={(e) => setDueDate(e.target.value)}
                                     required
                                     className="w-full rounded-lg border bg-background px-3 py-2 text-sm outline-none focus:border-ring focus:ring-3 focus:ring-ring/50"
                                 />

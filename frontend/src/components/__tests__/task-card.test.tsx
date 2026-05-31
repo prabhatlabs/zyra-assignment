@@ -84,6 +84,8 @@ describe("TaskCard", () => {
     it("does not render description when empty", () => {
         const noDesc = { ...baseTask, description: "" }
         render(<TaskCard task={noDesc} />)
-        expect(screen.queryByText("Deadline is approaching.")).not.toBeInTheDocument()
+        expect(
+            screen.queryByText("Deadline is approaching."),
+        ).not.toBeInTheDocument()
     })
 })
